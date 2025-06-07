@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Gallery - Dayspring International Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2e7d32',
+                        secondary: '#1b5e20',
+                        accent: '#8bc34a',
+                        dark: '#263238',
+                        light: '#f5f5f5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .gallery-item {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: center;
+        }
+        body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+        .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+    .animate-fadein.visible { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0; bottom: 0;
+      background: #8bc34a;
+      transition: width .3s;
+    }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .gallery-caption {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+        .edit-mode .gallery-item {
+            outline: 2px dashed rgba(16, 185, 129, 0.5);
+        }
+        .scroll-container {
+            scroll-behavior: smooth;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #8bc34a;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .footer-gradient {
+            background: linear-gradient(90deg, #407349 0%, #1a4408 100%);
+        }
+        /* Apple-like search bar */
+        .search-bar {
+            background: rgba(255,255,255,0.8);
+            border-radius: 9999px;
+            transition: box-shadow 0.25s;
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 4px 24px 0 rgba(52,211,153,0.2);
+        }
+        /* Sorting dropdown styling */
+        .sort-dropdown {
+            background: rgba(255,255,255,0.95);
+            border-radius: 9999px;
+            transition: box-shadow 0.25s;
+        }
+        .sort-dropdown:focus-within {
+            box-shadow: 0 4px 24px 0 rgba(52,211,153,0.2);
+        }
+    </style>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center min-w-0">
+                <a href="home.html">
+                    <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
+                </a>
+                <div class="ml-3">
+                    <h1 class="text-lg sm:text-xl font-bold text-green-600 truncate">Dayspring International Academy</h1>
+                    <p class="text-xs sm:text-sm font-bold text-gray-500 truncate">Accra, Ghana</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+                <a href="home.html" style="font-family: Poppins, sans-serif"; class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">Home</a>
+                <a href="home.html#about" style="font-family: Poppins, sans-serif"; class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">About</a>
+                <a href="gallery.html" style="font-family: Poppins, sans-serif"; class="text-green-600 font-semibold" target="_self">Gallery</a>
+                <a href="admission.html" style="font-family: Poppins, sans-serif"; class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Admissions</a>
+                <a href="facilities.html" style="font-family: Poppins, sans-serif"; class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Facilities</a>
+                <a href="contacts.html" style="font-family: Poppins, sans-serif"; class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Contact</a>
+            </nav>
+            <button id="hamburger" class="md:hidden text-gray-700 focus:outline-none" aria-label="Open menu">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 bg-white">
+            <a href="home.html" style="font-family: Poppins, sans-serif"; class="block py-2 text-gray-700 hover:text-green-600 transition">Home</a>
+            <a href="home.html#about" style="font-family: Poppins, sans-serif"; class="block py-2 text-gray-700 hover:text-green-600 transition">About</a>
+            <a href="gallery.html" style="font-family: Poppins, sans-serif"; class="block py-2 text-green-600 font-semibold underline underline-offset-8">Gallery</a>
+            <a href="admission.html" style="font-family: Poppins, sans-serif"; class="block py-2 text-gray-700 hover:text-green-600 transition">Admissions</a>
+            <a href="facilities.html" style="font-family: Poppins, sans-serif"; class="block py-2 text-gray-700 hover:text-green-600 transition">Facilities</a>
+            <a href="contacts.html" style="font-family: Poppins, sans-serif"; class="block py-2 text-gray-700 hover:text-green-600 transition">Contact</a>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Gallery Title -->
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-black text-gray-900 fade-in mb-2 tracking-tight">Gallery</h2>
+            <p class="text-lg text-gray-500 fade-in">A glimpse of life, learning, and achievement at Dayspring International Academy.</p>
+        </div>
+        <!-- Apple-like Search and Sort Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+            <div class="flex-1 w-full">
+                <form id="gallerySearchForm" class="flex items-center search-bar px-4 py-2 shadow-sm border border-gray-200 w-full max-w-md mx-auto sm:mx-0">
+                    <i class="fas fa-search text-gray-400 mr-2"></i>
+                    <input id="gallerySearch" type="text" placeholder="Search images..." class="flex-1 bg-transparent outline-none text-gray-700 text-base" autocomplete="off">
+                </form>
+            </div>
+            <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                <label class="text-gray-500 text-sm font-medium" for="gallerySort">Sort by:</label>
+                <select id="gallerySort" class="sort-dropdown px-4 py-2 border border-gray-200 text-gray-700 text-sm outline-none shadow-sm">
+                    <option value="default">Default</option>
+                    <option value="title-asc">Title A-Z</option>
+                    <option value="title-desc">Title Z-A</option>
+                    <option value="recent">Most Recent</option>
+                </select>
+            </div>
+        </div>
+        <!-- Category Filter -->
+        <div class="mb-8 fade-in">
+            <div class="flex overflow-x-auto scroll-container pb-2">
+                <div class="flex space-x-2" id="categoryBar">
+                    <button class="category-btn px-4 py-2 bg-green-600 text-white rounded-full whitespace-nowrap" data-category="all">All</button>
+                    <button class="category-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full whitespace-nowrap hover:bg-gray-300" data-category="campus">Campus</button>
+                    <button class="category-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full whitespace-nowrap hover:bg-gray-300" data-category="events">Events</button>
+                    <button class="category-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full whitespace-nowrap hover:bg-gray-300" data-category="sports">Sports</button>
+                    <button class="category-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full whitespace-nowrap hover:bg-gray-300" data-category="classroom">Classroom</button>
+                    <button class="category-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full whitespace-nowrap hover:bg-gray-300" data-category="achievements">Achievements</button>
+                </div>
+            </div>
+        </div>
+        <!-- Gallery Grid -->
+        <div id="galleryGrid" class="gallery-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Example Gallery Items (you may render these dynamically in a real app) -->
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="campus" data-title="Main Campus" data-timestamp="2024-05-15T10:00:00Z">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="School building" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Main Campus</h3>
+                    <p class="text-sm opacity-90">Our beautiful school building in spring</p>
+                </div>
+            </div>
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="events" data-title="Science Fair 2023" data-timestamp="2024-03-21T14:30:00Z">
+                <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Science fair" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Science Fair 2023</h3>
+                    <p class="text-sm opacity-90">Students showcasing innovative projects</p>
+                </div>
+            </div>
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="sports" data-title="Championship Game" data-timestamp="2025-01-15T18:00:00Z">
+                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Basketball game" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Championship Game</h3>
+                    <p class="text-sm opacity-90">Our team winning the regional finals</p>
+                </div>
+            </div>
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="classroom" data-title="Interactive Learning" data-timestamp="2024-09-10T09:45:00Z">
+                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Classroom activity" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Interactive Learning</h3>
+                    <p class="text-sm opacity-90">Students engaged in group discussion</p>
+                </div>
+            </div>
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="achievements" data-title="Academic Excellence" data-timestamp="2025-05-01T16:00:00Z">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Award ceremony" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Academic Excellence</h3>
+                    <p class="text-sm opacity-90">Honoring our top-performing students</p>
+                </div>
+            </div>
+            <div class="gallery-item relative rounded-xl overflow-hidden bg-white shadow-md" data-category="events" data-title="Annual Concert" data-timestamp="2025-03-10T12:00:00Z">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Music concert" class="w-full h-64 object-cover">
+                <div class="gallery-caption absolute inset-0 flex flex-col justify-end p-6 text-white">
+                    <h3 class="text-xl font-bold">Annual Concert</h3>
+                    <p class="text-sm opacity-90">Our talented musicians performing</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer-gradient text-white py-14 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center mb-3">
+                        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+                        <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+                    </div>
+                    <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-100">
+                        <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+                        <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+                        <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3">Contact</h3>
+                    <ul class="space-y-2 text-gray-100">
+                        <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+                        <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+                &copy; 2025 Dayspring International Academy. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+        <div class="relative max-w-4xl w-full p-4">
+            <button id="closeLightbox" class="absolute top-4 right-4 text-white text-3xl z-50">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="bg-white rounded-xl overflow-hidden">
+                <img id="lightboxImage" src="" alt="" class="w-full max-h-[80vh] object-contain">
+                <div class="p-6 bg-gray-50">
+                    <h3 id="lightboxTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                    <p id="lightboxDesc" class="text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Responsive hamburger menu
+        document.getElementById('hamburger').addEventListener('click', function () {
+            var menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden', !menu.classList.contains('hidden'));
+        });
+
+        // Gallery search, sort, and category filtering
+        const galleryGrid = document.getElementById('galleryGrid');
+        let allGalleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+        let currentCategory = 'all';
+        let currentSearch = '';
+        let currentSort = 'default';
+
+        function renderGallery() {
+            // Filter items by category and search
+            let items = allGalleryItems.filter(item => {
+                const title = (item.dataset.title || '').toLowerCase();
+                const desc = (item.querySelector('.gallery-caption p')?.textContent || '').toLowerCase();
+                const category = item.dataset.category;
+                let matchesCategory = currentCategory === 'all' || category === currentCategory;
+                let matchesSearch = !currentSearch || title.includes(currentSearch) || desc.includes(currentSearch);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Sort items
+            if (currentSort === 'title-asc') {
+                items.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || ''));
+            } else if (currentSort === 'title-desc') {
+                items.sort((a, b) => (b.dataset.title || '').localeCompare(a.dataset.title || ''));
+            } else if (currentSort === 'recent') {
+                items.sort((a, b) => new Date(b.dataset.timestamp || 0) - new Date(a.dataset.timestamp || 0));
+            }
+
+            // Render items
+            galleryGrid.innerHTML = '';
+            if(items.length === 0) {
+                galleryGrid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400 text-xl">No images found.</div>';
+            } else {
+                items.forEach(item => galleryGrid.appendChild(item));
+            }
+        }
+
+        // Category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.category-btn').forEach(b => {
+                    b.classList.remove('bg-green-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-800');
+                });
+                this.classList.add('bg-green-600', 'text-white');
+                this.classList.remove('bg-gray-200', 'text-gray-800');
+                currentCategory = this.dataset.category;
+                renderGallery();
+            });
+        });
+
+        // Search bar
+        document.getElementById('gallerySearch').addEventListener('input', function () {
+            currentSearch = this.value.trim().toLowerCase();
+            renderGallery();
+        });
+
+        // Sort dropdown
+        document.getElementById('gallerySort').addEventListener('change', function () {
+            currentSort = this.value;
+            renderGallery();
+        });
+
+        // Initial render
+        renderGallery();
+
+        // Lightbox
+        galleryGrid.addEventListener('click', function (e) {
+            let item = e.target.closest('.gallery-item');
+            if (!item) return;
+            document.getElementById('lightboxImage').src = item.querySelector('img').src;
+            document.getElementById('lightboxTitle').textContent = item.querySelector('.gallery-caption h3').textContent;
+            document.getElementById('lightboxDesc').textContent = item.querySelector('.gallery-caption p').textContent;
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('closeLightbox').addEventListener('click', function () {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+        document.getElementById('lightbox').addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                document.getElementById('lightbox').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

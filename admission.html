@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Only one Font Awesome stylesheet (latest, v6) for best performance -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Admissions - Dayspring International Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'dayspring-green': '#1a5c3a',
+            primary: '#2e7d32',
+            accent: '#8bc34a',
+            dark: '#263238'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+    .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+    .animate-fadein.visible { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0; bottom: 0;
+      background: #8bc34a;
+      transition: width .3s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .fade-in { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
+    .slide-up { animation: slideUp 0.8s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+    .back-to-top {
+      position: fixed; bottom: 30px; right: 30px; display: none;
+      transition: all 0.3s; z-index: 50;
+    }
+    .back-to-top:hover { transform: translateY(-5px); }
+    .lightbox {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9); z-index: 50;
+      justify-content: center; align-items: center;
+    }
+    .lightbox img { max-width: 90vw; max-height: 80vh; border: 3px solid white;}
+    .close-lightbox {
+      position: absolute; top: 20px; right: 30px;
+      color: white; font-size: 35px; cursor: pointer;
+    }
+    /* Improved footer gradient: darker and more yellow, less blue */
+    .footer-gradient {
+        background: linear-gradient(90deg, #407349 0%, #1a4408 100%);
+    }
+    @media (max-width: 767px) {
+      .footer-gradient .grid {
+        gap: 2.5rem !important;
+      }
+      .footer-gradient .flex.items-center.mb-3 span {
+        font-size: 1rem;
+      }
+    }
+    input, textarea, select { font-size: 1rem; }
+    /* Modal and form enhancements */
+    #admission-form .form-status {
+      display: none;
+      padding: 0.8em 1em;
+      margin-bottom: 1em;
+      border-radius: 0.7em;
+      font-weight: 500;
+    }
+    #admission-form .form-status.success { display: block; background: #e6f7e6; color: #20752e; border: 1px solid #8bc34a; }
+    #admission-form .form-status.error { display: block; background: #ffe6e6; color: #a30000; border: 1px solid #f44336; }
+    #admission-form .form-spinner {
+      display: none;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 1em;
+      color: #20752e;
+      font-weight: 500;
+    }
+    #admission-form .form-spinner i { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center min-w-0">
+        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
+        <div class="ml-3">
+          <h1 class="text-lg sm:text-xl font-bold text-green-600 truncate">Dayspring International Academy</h1>
+          <p class="text-xs sm:text-sm font-bold text-gray-500 truncate">Accra, Ghana</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+        <a href="home.html" style="font-family: Poppins, sans-serif;" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">Home</a>
+        <a href="home.html#about" style="font-family: Poppins, sans-serif;" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">About</a>
+        <a href="gallery.html" style="font-family: Poppins, sans-serif;" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">Gallery</a>
+        <a href="admissions.html" style="font-family: Poppins, sans-serif;" class="text-green-600 font-semibold" target="_self">Admissions</a>
+        <a href="facilities.html" style="font-family: Poppins, sans-serif;" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">Facilities</a>
+        <a href="contacts.html" style="font-family: Poppins, sans-serif;" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">Contact</a>
+      </nav>
+      <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none" aria-label="Open menu">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 bg-white">
+      <a href="home.html" style="font-family: Poppins, sans-serif;" class="block py-2 text-gray-700 hover:text-green-600 transition">Home</a>
+      <a href="home.html#about" style="font-family: Poppins, sans-serif;" class="block py-2 text-gray-700 hover:text-green-600 transition">About</a>
+      <a href="gallery.html" style="font-family: Poppins, sans-serif;" class="block py-2 text-gray-700 hover:text-green-600 transition">Gallery</a>
+      <a href="admissions.html" style="font-family: Poppins, sans-serif;" class="block py-2 text-green-600 font-semibold underline underline-offset-8">Admissions</a>
+      <a href="facilities.html" style="font-family: Poppins, sans-serif;" class="block py-2 text-gray-700 hover:text-green-600 transition">Facilities</a>
+      <a href="contacts.html" style="font-family: Poppins, sans-serif;" class="block py-2 text-gray-700 hover:text-green-600 transition">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative flex items-center justify-center text-white min-h-[50vh] bg-[url('https://daysia-edu.com/assets/images/preschool.jpg')] bg-cover bg-center">
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="relative z-10 w-full max-w-3xl px-4 py-12 text-center fade-in">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 slide-up">Admissions Open for 2025-26</h1>
+      <p class="text-lg sm:text-xl md:text-2xl mb-8 mx-auto max-w-2xl slide-up">Join our community of learners and discover a world of opportunities at Dayspring International Academy</p>
+      <a href="#admission-form" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-block slide-up">Apply Now</a>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="py-14 sm:py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800">Why Choose Dayspring International Academy?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+          <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-graduation-cap text-green-500 text-xl"></i>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold text-center mb-3 text-gray-800">Academic Excellence</h3>
+          <p class="text-gray-600 text-center text-sm sm:text-base">Our curriculum is designed to challenge students while providing support to help them achieve their full potential.</p>
+        </div>
+        <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+          <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-users text-green-500 text-xl"></i>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold text-center mb-3 text-gray-800">Experienced Faculty</h3>
+          <p class="text-gray-600 text-center text-sm sm:text-base">Our dedicated teachers are experts in their fields and committed to nurturing each student's unique talents.</p>
+        </div>
+        <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+          <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-futbol text-green-500 text-xl"></i>
+          </div>
+          <h3 class="text-lg sm:text-xl font-semibold text-center mb-3 text-gray-800">Holistic Development</h3>
+          <p class="text-gray-600 text-center text-sm sm:text-base">We offer a wide range of extracurricular activities to ensure the all-round development of our students.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admission Process -->
+  <section class="py-14 sm:py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800">Our Admission Process</h2>
+      <div class="relative flex flex-col items-center">
+        <!-- Timeline Line -->
+        <div class="absolute left-1/2 top-10 bottom-10 w-1 bg-green-100 hidden md:block" style="transform: translateX(-50%); z-index:0;"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8 z-10">
+          <!-- Step 1 -->
+          <div class="flex md:justify-end md:items-center group">
+            <div class="w-full md:w-11/12 bg-white rounded-lg shadow-md p-6 mb-4 md:mb-0 relative fade-in hover:shadow-lg transition">
+              <div class="flex items-center mb-2">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl font-bold shadow-lg mr-4 border-4 border-white ring-4 ring-green-100 z-10">
+                  1
+                </div>
+                <h3 class="text-lg font-bold text-green-700">Inquiry &amp; Application</h3>
+              </div>
+              <p class="text-gray-600">Submit an online inquiry form or visit our campus. Complete the application form with required documents.</p>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="flex md:justify-start md:items-center group">
+            <div class="w-full md:w-11/12 bg-white rounded-lg shadow-md p-6 mb-4 md:mb-0 relative fade-in hover:shadow-lg transition">
+              <div class="flex items-center mb-2">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl font-bold shadow-lg mr-4 border-4 border-white ring-4 ring-green-100 z-10">
+                  2
+                </div>
+                <h3 class="text-lg font-bold text-green-700">Assessment</h3>
+              </div>
+              <p class="text-gray-600">Students may be required to take an assessment test depending on the grade level.</p>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="flex md:justify-end md:items-center group">
+            <div class="w-full md:w-11/12 bg-white rounded-lg shadow-md p-6 mb-4 md:mb-0 relative fade-in hover:shadow-lg transition">
+              <div class="flex items-center mb-2">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl font-bold shadow-lg mr-4 border-4 border-white ring-4 ring-green-100 z-10">
+                  3
+                </div>
+                <h3 class="text-lg font-bold text-green-700">Interview</h3>
+              </div>
+              <p class="text-gray-600">Shortlisted candidates and parents will be invited for an interview with the admissions committee.</p>
+            </div>
+          </div>
+          <!-- Step 4 -->
+          <div class="flex md:justify-start md:items-center group">
+            <div class="w-full md:w-11/12 bg-white rounded-lg shadow-md p-6 mb-4 md:mb-0 relative fade-in hover:shadow-lg transition">
+              <div class="flex items-center mb-2">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl font-bold shadow-lg mr-4 border-4 border-white ring-4 ring-green-100 z-10">
+                  4
+                </div>
+                <h3 class="text-lg font-bold text-green-700">Admission Decision</h3>
+              </div>
+              <p class="text-gray-600">Successful applicants will receive an offer letter. Complete the enrollment process by submitting required fees.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Vertical timeline for large screens -->
+        <div class="hidden md:block absolute left-1/2 top-24 bottom-24 w-3 h-[calc(100%-6rem)] bg-gradient-to-b from-green-100 via-green-200 to-green-100 rounded-full z-0" style="transform: translateX(-50%);"></div>
+      </div>
+      <!-- Highlight image below timeline on mobile, to the right on desktop -->
+      <div class="flex flex-col md:flex-row items-center justify-center mt-12">
+        <div class="w-full md:w-1/2 flex justify-center">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+            alt="Admission process"
+            class="w-full max-w-md h-auto rounded-lg shadow-md cursor-pointer hover:shadow-lg transition duration-300 fade-in">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Application Form -->
+  <section id="apply" class="py-14 sm:py-16 bg-green-800 text-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-center mb-4">Start Your Application</h2>
+      <p class="text-center text-green-100 mb-8">
+        Ready to join our community? Fill out the form below to begin your admission process.
+      </p>
+      <form id="admission-form" class="bg-white rounded-lg shadow-xl p-4 sm:p-6 md:p-8 text-gray-800" autocomplete="off">
+        <div class="form-spinner" id="formSpinner"><i class="fa fa-spinner"></i>Sending...</div>
+        <div class="mb-6">
+          <h3 class="text-xl font-semibold mb-4 text-green-700">Student Information</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label for="first-name" class="block mb-1 font-medium">First Name*</label>
+              <input type="text" id="first-name" name="first-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+            <div>
+              <label for="last-name" class="block mb-1 font-medium">Last Name*</label>
+              <input type="text" id="last-name" name="last-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label for="dob" class="block mb-1 font-medium">Date of Birth*</label>
+              <input type="date" id="dob" name="dob" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+            <div>
+              <label for="grade" class="block mb-1 font-medium">Grade Applying For*</label>
+              <select id="grade" name="grade" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                <option value="">Select Grade</option>
+                <option value="Pre-K">Playgroup</option>
+                <option value="K">Kindergarten</option>
+                <option value="1">Year 1</option>
+                <option value="2">Year 2</option>
+                <option value="3">Year 3</option>
+                <option value="4">Year 4</option>
+                <option value="5">Year 5</option>
+                <option value="6">Year 6</option>
+                <option value="7">Year 7</option>
+                <option value="8">Year 8</option>
+                <option value="9">Year 9</option>
+                <option value="10">Year 10</option>
+                <option value="11">Year 11</option>
+                <option value="12">Year 12</option>
+                <option value="13">Year 13</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xl font-semibold mb-4 text-green-700">Parent/Guardian Information</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label for="parent-name" class="block mb-1 font-medium">Parent/Guardian Name*</label>
+              <input type="text" id="parent-name" name="parent-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+            <div>
+              <label for="relationship" class="block mb-1 font-medium">Relationship to Student*</label>
+              <input type="text" id="relationship" name="relationship" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label for="email" class="block mb-1 font-medium">Email*</label>
+              <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+            <div>
+              <label for="phone" class="block mb-1 font-medium">Phone Number*</label>
+              <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="address" class="block mb-1 font-medium">Address*</label>
+            <textarea id="address" name="address" rows="2" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
+          </div>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xl font-semibold mb-4 text-green-700">Additional Information</h3>
+          <div>
+            <label for="previous-school" class="block mb-1 font-medium">Previous School (if applicable)</label>
+            <input type="text" id="previous-school" name="previous-school" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"/>
+          </div>
+          <div class="mt-4">
+            <label class="block mb-1 font-medium">How did you hear about us?</label>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="flex items-center">
+                <input type="radio" name="hear-about" value="friend" class="mr-2"> Friend/Family
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="hear-about" value="website" class="mr-2"> Website
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="hear-about" value="social" class="mr-2"> Social Media
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="hear-about" value="event" class="mr-2"> School Event
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="hear-about" value="other" class="mr-2"> Other
+              </label>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="questions" class="block mb-1 font-medium">Questions or Comments</label>
+            <textarea id="questions" name="questions" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
+          </div>
+        </div>
+        <div class="mb-6">
+          <div class="flex items-start">
+            <input type="checkbox" id="agree" name="agree" required class="mt-1 mr-2">
+            <label for="agree" class="text-sm">
+              I certify that the information provided is accurate and complete. I understand that providing false information may result in the rejection of this application.
+            </label>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" id="admissionFormBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg text-lg font-bold transition flex items-center justify-center gap-2">
+            <span>Submit Application</span>
+            <span class="form-spinner" style="display:none;" id="formBtnSpinner"><i class="fas fa-spinner"></i>Sending...</span>
+            <i class="fas fa-paper-plane ml-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script>
+    const form = document.getElementById('admission-form');
+    const spinner = document.getElementById('formBtnSpinner');
+    const btn = document.getElementById('admissionFormBtn');
+    
+    // Show/hide spinner helpers
+    function showSpinner() {
+      if (spinner) spinner.style.display = "inline-block";
+      if (btn) btn.setAttribute("disabled", "disabled");
+    }
+    function hideSpinner() {
+      if (spinner) spinner.style.display = "none";
+      if (btn) btn.removeAttribute("disabled");
+    }
+    
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      showSpinner();
+    
+      // Collect form data
+      const data = {
+        "first-name": form['first-name'].value,
+        "last-name": form['last-name'].value,
+        "dob": form['dob'].value,
+        "grade": form['grade'].value,
+        "parent-name": form['parent-name'].value,
+        "relationship": form['relationship'].value,
+        "email": form['email'].value,
+        "phone": form['phone'].value,
+        "address": form['address'].value,
+        "previous-school": form['previous-school'].value,
+        "hear-about": form.querySelector('input[name="hear-about"]:checked')?.value || "",
+        "questions": form['questions'].value
+      };
+    
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbxah6UD9OwqMIOXM3S69H-AuOfH7Mxr8Y_7PGmYHorCkp7uN4yrqyrCktmSBAm5dbZw/exec', { // <-- Replace with your actual Web App URL
+          method: 'POST',
+          mode: 'no-cors', // You won't get a response with no-cors, but it works for Apps Script
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+    
+        // Show a success message (customize as necessary)
+        alert("Thank you for your application!");
+        form.reset();
+      } catch (error) {
+        alert("There was an error submitting the form. Please try again.");
+      } finally {
+        hideSpinner();
+      }
+    });
+    </script>
+
+  <!-- Contact Info -->
+  <section class="py-14 sm:py-16 bg-gray-50" id="contact">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/2 p-6 sm:p-8">
+            <h2 class="text-xl sm:text-3xl font-bold mb-6 text-gray-800">Contact Information</h2>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500 mr-4 mt-1"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 mb-1">Address</h3>
+                  <p class="text-gray-600">Nmai Dzorn, East Legon Extension<br>Adenta Accra, P.O. Box AF 1743<br>Ghana</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500 mr-4 mt-1"><i class="fas fa-phone-alt"></i></div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 mb-1">Phone</h3>
+                  <p class="text-gray-600">Main Office: +233 (0)209 - 461692</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500 mr-4 mt-1"><i class="fas fa-envelope"></i></div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 mb-1">Email</h3>
+                  <p class="text-gray-600">info@daysia-edu.com</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500 mr-4 mt-1"><i class="fas fa-clock"></i></div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 mb-1">Office Hours</h3>
+                  <p class="text-gray-600">Monday - Friday: 8:00 AM - 4:30 PM<br>Saturday: 9:00 AM - 1:00 PM<br>Sunday: Closed</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-8">
+              <h3 class="font-semibold text-gray-800 mb-3">Connect With Us</h3>
+              <div class="flex space-x-4">
+                <a href="https://www.facebook.com/p/Dayspring-International-Academy-100069256110042/" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-700 hover:bg-green-500 hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/dayspring_int_academy/" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-700 hover:bg-green-500 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                <a href="https://gh.linkedin.com/in/dayspring-international-academy-033556341" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-700 hover:bg-green-500 hover:text-white transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2 h-[450px]">
+            <div class="h-full w-full">
+              <div class="h-full bg-gray-200 flex items-center justify-center">
+                <div class="h-full w-full">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.2872080176494!2d-0.12793746093595795!3d5.671551536518589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf83be9b85133b%3A0x23c3096bdddcdc0f!2sDayspring%20International%20Academy%20-%20Secondary%20Department!5e0!3m2!1sen!2sgh!4v1748713965511!5m2!1sen!2sgh"
+                    class="w-full h-full"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-14 sm:py-16 bg-green-800 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Ready to Join Our Community?</h2>
+      <p class="text-lg sm:text-xl mb-8 max-w-2xl mx-auto">Schedule a campus tour or begin your application today. Our admissions team is here to help!</p>
+      <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <a href="#admission-form" class="bg-white hover:bg-gray-100 text-green-600 font-bold py-3 px-8 rounded-full transition duration-300 inline-block">Apply Now</a>
+        <a href="#" class="border-2 border-white hover:bg-white hover:bg-opacity-10 font-bold py-3 px-8 rounded-full transition duration-300 inline-block">Schedule Tour</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-gradient text-white py-14 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+                <div class="flex items-center mb-3">
+                    <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+                    <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+                </div>
+                <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                <ul class="space-y-2 text-gray-100">
+                    <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+                    <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+                    <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+                    <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+                    <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Contact</h3>
+                <ul class="space-y-2 text-gray-100">
+                    <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+                    <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+                    <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+            &copy; 2025 Dayspring International Academy. All rights reserved.
+        </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="">
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-lg max-w-md w-full text-center">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-check text-green-500 text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold mb-2 text-gray-800">Application Submitted!</h3>
+      <p class="text-gray-600 mb-6">Thank you for your application. Our admissions team will contact you within 48 hours.</p>
+      <button id="close-modal" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      document.body.classList.toggle('overflow-hidden', !mobileMenu.classList.contains('hidden'));
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#' || !document.querySelector(targetId)) return;
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+        }
+      });
+    });
+
+    // Back to top
+    const backToTopButton = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'flex';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    // Lightbox for image
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const closeLightbox = document.querySelector('.close-lightbox');
+    const galleryImages = document.querySelectorAll('.gallery-item img, .admission-image');
+    galleryImages.forEach(image => {
+      image.addEventListener('click', () => {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    closeLightbox.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Admission form handling (seamless UX, ready for backend integration)
+    const admissionForm = document.getElementById('admission-form');
+    const successModal = document.getElementById('success-modal');
+    const closeModal = document.getElementById('close-modal');
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    const formSpinner = document.getElementById('formSpinner');
+    const formBtnSpinner = document.getElementById('formBtnSpinner');
+    const admissionFormBtn = document.getElementById('admissionFormBtn');
+
+    admissionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formSuccess.style.display = 'none';
+      formError.style.display = 'none';
+      formSpinner.style.display = 'inline-flex';
+      formBtnSpinner.style.display = 'inline-flex';
+      admissionFormBtn.disabled = true;
+      // Validate required fields
+      let isValid = true;
+      admissionForm.querySelectorAll('[required]').forEach(field => {
+        if (!field.value.trim() || (field.type === 'checkbox' && !field.checked)) {
+          isValid = false;
+          field.classList.add('border-red-500');
+        } else {
+          field.classList.remove('border-red-500');
+        }
+      });
+      // Email validation
+      const emailField = admissionForm.querySelector('[type="email"]');
+      if (emailField && !emailField.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        isValid = false;
+        emailField.classList.add('border-red-500');
+      }
+      if (!isValid) {
+        formSpinner.style.display = 'none';
+        formBtnSpinner.style.display = 'none';
+        formError.textContent = 'Please fill all required fields correctly.';
+        formError.style.display = 'block';
+        admissionFormBtn.disabled = false;
+        return;
+      }
+      // Gather data for backend (demo only)
+      const formData = new FormData(admissionForm);
+      const data = {};
+      formData.forEach((v, k) => data[k] = v);
+
+      // Replace with your actual Google Apps Script or backend endpoint
+      // const webAppUrl = 'YOUR_WEB_APP_URL';
+      // try {
+      //   const response = await fetch(webAppUrl, {
+      //     method: 'POST',
+      //     body: JSON.stringify(data),
+      //     headers: {'Content-Type': 'application/json'}
+      //   });
+      //   if (response.ok) {
+      //     formSuccess.textContent = 'Thank you for your application! We will contact you soon.';
+      //     formSuccess.style.display = 'block';
+      //     admissionForm.reset();
+      //   } else {
+      //     formError.textContent = 'Submission failed. Please try again.';
+      //     formError.style.display = 'block';
+      //   }
+      // } catch (_) {
+      //   formError.textContent = 'Network error. Please try again.';
+      //   formError.style.display = 'block';
+      // }
+
+      // -- DEMO: Simulate successful remote send
+      await new Promise(res => setTimeout(res, 1200));
+      formSpinner.style.display = 'none';
+      formBtnSpinner.style.display = 'none';
+      admissionFormBtn.disabled = false;
+      formSuccess.textContent = 'Thank you for your application! We will contact you soon.';
+      formSuccess.style.display = 'block';
+      admissionForm.reset();
+      setTimeout(() => {
+        formSuccess.style.display = 'none';
+        successModal.classList.remove('hidden');
+      }, 800);
+
+      // Hide modal on close
+      closeModal.onclick = () => { successModal.classList.add('hidden'); }
+    });
+
+    // Animate on scroll
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.fade-in, .slide-up');
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        if (elementPosition < screenPosition) {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    };
+    document.querySelectorAll('.fade-in').forEach(el => { el.style.opacity = '0'; el.style.transition = 'opacity 0.8s ease'; });
+    document.querySelectorAll('.slide-up').forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.8s ease'; });
+    animateOnScroll();
+    window.addEventListener('scroll', animateOnScroll);
+  </script>
+</body>
+</html>

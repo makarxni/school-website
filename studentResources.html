@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Resources | Dayspring International Academy</title>
+  <!-- Font Awesome CDN (v6) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2e7d32',
+            secondary: '#1b5e20',
+            accent: '#8bc34a',
+            dark: '#263238',
+            light: '#f5f5f5'
+          },
+          fontFamily: {
+            pop: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+    .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+    .animate-fadein.visible { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0; bottom: 0;
+      background: #8bc34a;
+      transition: width .3s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .footer-gradient { background: linear-gradient(90deg, #407349 0%, #1a4408 100%); }
+    .hover-up {
+      transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1);
+    }
+    .hover-up:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 12px 32px 0 rgba(40,80,120,0.13);
+    }
+    .glass {
+      background: rgba(255,255,255,.76);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-radius: 30px;
+      border: 1px solid rgba(200, 200, 200, 0.15);
+      box-shadow: 0 4px 32px 0 rgba(60,60,60,0.07), 0 1.5px 4px 0 rgba(60,60,60,0.04);
+    }
+    .resource-card {
+      border-radius: 1.5em;
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 6px 24px 0 rgba(40,80,120,0.10);
+      border: 1px solid #d5e5d5;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .resource-card:hover {
+      box-shadow: 0 18px 52px 0 rgba(40,80,120,0.14);
+      transform: translateY(-6px) scale(1.02);
+    }
+    .schedule-table th,
+    .schedule-table td {
+      padding: .5em 1em;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .schedule-table th {
+      background: #e8f5e9;
+      color: #20752e;
+      font-weight: 600;
+    }
+    .schedule-table tr:last-child td {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+
+  <!-- HEADER -->
+  <header class="bg-white shadow-md sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+      <a href="home.html" class="flex items-center group">
+        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 object-contain group-hover:scale-105 transition-transform">
+        <div class="ml-2">
+          <h1 class="text-lg md:text-xl font-bold text-green-600">Dayspring International Academy</h1>
+          <p class="text-xs md:text-sm font-semibold text-gray-400">Accra, Ghana</p>
+        </div>
+      </a>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+        <a href="home.html" class="nav-link text-dark font-medium hover:text-primary transition">Home</a>
+        <a href="home.html#about" class="nav-link text-dark font-medium hover:text-primary transition">About</a>
+        <a href="gallery.html" class="nav-link text-dark font-medium hover:text-primary transition">Gallery</a>
+        <a href="admission.html" class="nav-link text-dark font-medium hover:text-primary transition">Admissions</a>
+        <a href="facilities.html" class="nav-link text-dark font-medium hover:text-primary transition">Facilities</a>
+        <a href="contacts.html" class="nav-link text-dark font-medium hover:text-primary transition">Contact</a>
+      </nav>
+      <!-- Mobile -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1 justify-center items-center w-10 h-10 focus:outline-none group">
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:rotate-45 group-[.open]:translate-y-2"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:opacity-0"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:-rotate-45 group-[.open]:-translate-y-2"></span>
+      </button>
+    </div>
+    <!-- Mobile Slide Menu -->
+    <nav id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-center gap-7 text-lg font-semibold text-primary transition-all duration-300 -translate-y-full md:hidden">
+      <a href="home.html" class="hover:text-accent">Home</a>
+      <a href="home.html#about" class="hover:text-accent">About</a>
+      <a href="gallery.html" class="hover:text-accent">Gallery</a>
+      <a href="admission.html" class="hover:text-accent">Admissions</a>
+      <a href="facilities.html" class="hover:text-accent">Facilities</a>
+      <a href="contacts.html" class="hover:text-accent">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative flex items-center min-h-[45vh] bg-gradient-to-tr from-green-600 via-green-400 to-accent overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-25"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-5 py-14 flex flex-col items-center">
+      <span class="inline-block bg-white text-primary px-4 py-1 rounded-full font-semibold mb-3">Student Resources</span>
+      <h2 class="text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-xl animate-fadein" style="text-shadow:0 8px 28px rgba(0,0,0,.28);">
+        Tools for Success
+      </h2>
+      <p class="text-xl md:text-2xl text-white/95 mb-4 animate-fadein">Your guides, schedules, and support all in one place.</p>
+    </div>
+  </section>
+
+  <!-- RESOURCE CARDS -->
+  <section class="py-16 bg-light">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- Timetables -->
+        <div class="resource-card glass p-7 animate-fadein hover-up flex flex-col items-center text-center">
+          <i class="fa fa-calendar-alt text-accent text-4xl mb-4"></i>
+          <h3 class="font-bold text-lg text-dark mb-2">Class Timetables</h3>
+          <p class="text-gray-700 mb-4">Find your daily and weekly class schedules for every grade.</p>
+          <a href="#timetables" class="text-primary font-semibold hover:underline">View Timetables</a>
+        </div>
+        <!-- School Schedule -->
+        <div class="resource-card glass p-7 animate-fadein hover-up flex flex-col items-center text-center">
+          <i class="fa fa-clock text-accent text-4xl mb-4"></i>
+          <h3 class="font-bold text-lg text-dark mb-2">School Calendar</h3>
+          <p class="text-gray-700 mb-4">Check important dates, holidays, and upcoming events throughout the academic year.</p>
+          <a href="#calendar" class="text-primary font-semibold hover:underline">View Calendar</a>
+        </div>
+        <!-- Handbook PDF -->
+        <div class="resource-card glass p-7 animate-fadein hover-up flex flex-col items-center text-center">
+          <i class="fa fa-book text-accent text-4xl mb-4"></i>
+          <h3 class="font-bold text-lg text-dark mb-2">Student Handbook</h3>
+          <p class="text-gray-700 mb-4">All you need to know about school rules, policies, and student life.</p>
+          <a href="handbook.pdf" target="_blank" class="text-primary font-semibold hover:underline flex items-center gap-2">
+            <span>Download Handbook (PDF)</span>
+            <i class="fa fa-arrow-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- TIMETABLES -->
+<section id="timetables" class="py-20 bg-gradient-to-br from-green-50 via-white to-green-100">
+  <div class="max-w-5xl mx-auto px-5">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 animate-fadein">Class Timetables</h2>
+    <div class="mb-8 flex flex-col md:flex-row items-center justify-center gap-4">
+      <label for="yearSelect" class="font-medium text-primary mr-2">Select Your Year:</label>
+      <select id="yearSelect" class="px-4 py-2 rounded-md border border-gray-300 focus:border-primary outline-none text-dark bg-white shadow-sm">
+        <option value="" selected disabled>-- Choose Year Group --</option>
+        <optgroup label="Preschool">
+          <option value="prekA">Pre K-A</option>
+          <option value="prekB">Pre K-B</option>
+        </optgroup>
+        <optgroup label="Primary School">
+          <option value="year1">Year 1</option>
+          <option value="year2">Year 2</option>
+          <option value="year3">Year 3</option>
+          <option value="year4">Year 4</option>
+          <option value="year5">Year 5</option>
+          <option value="year6">Year 6</option>
+        </optgroup>
+        <optgroup label="Secondary School">
+          <option value="year7">Year 7</option>
+          <option value="year8">Year 8</option>
+          <option value="year9">Year 9</option>
+          <option value="year10">Year 10</option>
+          <option value="year11">Year 11</option>
+          <option value="year12">Year 12</option>
+          <option value="year13">Year 13</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div id="timetableDisplay" class="animate-fadein"></div>
+  </div>
+</section>
+
+<script>
+const timetableData = {
+  prekA: [
+    ["8:00 - 9:00", "Free Play", "Circle Time", "Music", "Circle Time", "Free Play"],
+    ["9:05 - 10:05", "Story Time", "Art", "Snack", "Numbers", "Puzzles"],
+    ["10:30 - 11:30", "Outdoor", "Music", "Circle Time", "Art", "Games"],
+    ["11:35 - 12:35", "Lunch", "Nap", "Free Play", "Nap", "Lunch"],
+  ],
+  prekB: [
+    ["8:00 - 9:00", "Circle Time", "Music", "Free Play", "Circle Time", "Free Play"],
+    ["9:05 - 10:05", "Art", "Snack", "Numbers", "Story Time", "Puzzles"],
+    ["10:30 - 11:30", "Music", "Outdoor", "Circle Time", "Games", "Art"],
+    ["11:35 - 12:35", "Nap", "Lunch", "Free Play", "Lunch", "Nap"],
+  ],
+  year1: [
+    ["8:00 - 9:00", "English", "Math", "Science", "Math", "Art"],
+    ["9:05 - 10:05", "Phonics", "Science", "English", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Math", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year2: [
+    ["8:00 - 9:00", "Math", "English", "Science", "English", "Art"],
+    ["9:05 - 10:05", "Phonics", "Math", "English", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year3: [
+    ["8:00 - 9:00", "English", "Math", "Science", "Math", "Art"],
+    ["9:05 - 10:05", "Phonics", "Science", "Math", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Math", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year4: [
+    ["8:00 - 9:00", "Math", "English", "Science", "English", "Art"],
+    ["9:05 - 10:05", "English", "Math", "Science", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year5: [
+    ["8:00 - 9:00", "English", "Math", "Science", "Math", "Art"],
+    ["9:05 - 10:05", "Math", "Science", "English", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Math", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year6: [
+    ["8:00 - 9:00", "Math", "English", "Science", "English", "Art"],
+    ["9:05 - 10:05", "English", "Math", "Science", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "English", "Reading", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year7: [
+    ["8:00 - 9:00", "Math", "English", "Science", "Math", "Geography"],
+    ["9:05 - 10:05", "English", "History", "Math", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "Math", "English", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year8: [
+    ["8:00 - 9:00", "English", "Math", "Science", "English", "Geography"],
+    ["9:05 - 10:05", "Math", "Science", "English", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "English", "Math", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year9: [
+    ["8:00 - 9:00", "Math", "Biology", "English", "Math", "Geography"],
+    ["9:05 - 10:05", "English", "Science", "Math", "ICT", "Physical Ed."],
+    ["10:30 - 11:30", "Science", "Math", "English", "Social Studies", "French"],
+    ["11:35 - 12:35", "ICT", "Art", "Physical Ed.", "French", "Math"],
+  ],
+  year10: [
+    ["8:00 - 9:00", "Math", "Biology", "English", "Physics", "Geography"],
+    ["9:05 - 10:05", "Chemistry", "Math", "ICT", "English", "Math"],
+    ["10:30 - 11:30", "English", "Physics", "Biology", "Math", "Chemistry"],
+    ["11:35 - 12:35", "ICT", "Geography", "French", "Social Studies", "Physical Ed."],
+  ],
+  year11: [
+    ["8:00 - 9:00", "Physics", "Math", "Biology", "Math", "Chemistry"],
+    ["9:05 - 10:05", "Math", "Chemistry", "ICT", "English", "Math"],
+    ["10:30 - 11:30", "Biology", "Physics", "Math", "Math", "French"],
+    ["11:35 - 12:35", "ICT", "Geography", "French", "Social Studies", "Physical Ed."],
+  ],
+  year12: [
+    ["8:00 - 9:00", "Math", "Biology", "English", "Physics", "Geography"],
+    ["9:05 - 10:05", "Chemistry", "Math", "ICT", "English", "Math"],
+    ["10:30 - 11:30", "English", "Physics", "Biology", "Math", "Chemistry"],
+    ["11:35 - 12:35", "ICT", "Geography", "French", "Social Studies", "Physical Ed."],
+  ],
+  year13: [
+    ["8:00 - 9:00", "Math", "Biology", "English", "Physics", "Geography"],
+    ["9:05 - 10:05", "Chemistry", "Math", "ICT", "English", "Math"],
+    ["10:30 - 11:30", "English", "Physics", "Biology", "Math", "Chemistry"],
+    ["11:35 - 12:35", "ICT", "Geography", "French", "Social Studies", "Physical Ed."],
+  ]
+};
+
+const timetableHeaders = ["Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+function renderTimetableTable(yearKey, yearLabel) {
+  const timetable = timetableData[yearKey];
+  if (!timetable) {
+    return '<div class="text-center text-gray-500">No timetable available for this year group.</div>';
+  }
+  return `
+  <div class="bg-white/95 shadow-xl rounded-3xl p-4 md:p-8 mb-4" style="box-shadow:0 6px 36px 0 rgba(40,80,120,0.09);">
+    <h3 class="text-xl md:text-2xl font-extrabold text-[#2e7d32] mb-4">${yearLabel} Timetable</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full rounded-2xl overflow-hidden">
+        <thead>
+          <tr class="bg-[#e8f5e9]">
+            ${timetableHeaders.map(h => `<th class="py-3 px-4 text-left text-[#2e7d32] text-base md:text-lg font-bold">${h}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody class="text-[#263238] text-base font-medium">
+          ${timetable.map(
+            row => `<tr class="border-t border-gray-100">
+              ${row.map((cell, i) =>
+                i === 0
+                  ? `<td class="py-4 px-4 align-top whitespace-nowrap">${cell.replace(/ - /g,"<br>-<br>")}</td>`
+                  : `<td class="py-4 px-4">${cell}</td>`
+              ).join('')}
+            </tr>`
+          ).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  `;
+}
+
+document.getElementById("yearSelect").addEventListener("change", function() {
+  const yearKey = this.value;
+  const yearLabel = this.options[this.selectedIndex].text;
+  const display = document.getElementById("timetableDisplay");
+  display.innerHTML = renderTimetableTable(yearKey, yearLabel);
+});
+
+// Show prompt on first load
+document.getElementById("timetableDisplay").innerHTML =
+  '<div class="text-center text-gray-500">Please select a year group to view the timetable.</div>';
+</script>
+
+  <!-- SCHOOL CALENDAR -->
+  <section id="calendar" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-5">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 animate-fadein">Academic Calendar Highlights</h2>
+      <div class="glass p-6 animate-fadein hover-up">
+        <table class="schedule-table w-full text-base">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sept 9, 2024</td>
+              <td>First Day of School</td>
+            </tr>
+            <tr>
+              <td>Oct 21–25, 2024</td>
+              <td>Mid-Term Break</td>
+            </tr>
+            <tr>
+              <td>Dec 13, 2024</td>
+              <td>End of Term 1</td>
+            </tr>
+            <tr>
+              <td>Jan 6, 2025</td>
+              <td>Term 2 Begins</td>
+            </tr>
+            <tr>
+              <td>Mar 21, 2025</td>
+              <td>Sports Day</td>
+            </tr>
+            <tr>
+              <td>Apr 11, 2025</td>
+              <td>End of Term 2</td>
+            </tr>
+            <tr>
+              <td>May 5, 2025</td>
+              <td>Term 3 Begins</td>
+            </tr>
+            <tr>
+              <td>Jun 20, 2025</td>
+              <td>Graduation & End of Year</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mt-6 text-gray-600 text-sm">For the complete, most up-to-date academic calendar, please <a href="calendar.pdf" class="text-primary font-semibold hover:underline" target="_blank">download the full calendar (PDF)</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-gradient text-white py-14 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div>
+          <div class="flex items-center mb-3">
+            <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+            <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+          </div>
+          <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+            <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+            <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+            <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Contact</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+            <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+            <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+        &copy; 2025 Dayspring International Academy. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    // Hamburger mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let mobileMenuOpen = false;
+    hamburger.addEventListener('click', function () {
+      mobileMenuOpen = !mobileMenuOpen;
+      mobileMenu.classList.toggle('-translate-y-full', !mobileMenuOpen);
+      mobileMenu.classList.toggle('translate-y-0', mobileMenuOpen);
+      hamburger.classList.toggle('open', mobileMenuOpen);
+      document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuOpen = false;
+        mobileMenu.classList.add('-translate-y-full');
+        mobileMenu.classList.remove('translate-y-0');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Animate on scroll
+    function animateOnScroll() {
+      document.querySelectorAll('.animate-fadein').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.85) el.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('DOMContentLoaded', animateOnScroll);
+  </script>
+</body>
+</html>

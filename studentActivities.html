@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Activities | Dayspring International Academy</title>
+  <!-- Font Awesome CDN (v6) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2e7d32',
+            secondary: '#1b5e20',
+            accent: '#8bc34a',
+            bluehouse: '#2563eb',
+            yellowhouse: '#fbbf24',
+            greenhouse: '#22c55e',
+            redhouse: '#ef4444',
+            dark: '#263238',
+            light: '#f5f5f5'
+          },
+          fontFamily: {
+            pop: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+    .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+    .animate-fadein.visible { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0; bottom: 0;
+      background: #8bc34a;
+      transition: width .3s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .footer-gradient { background: linear-gradient(90deg, #407349 0%, #1a4408 100%); }
+    ::-webkit-scrollbar { width: 8px; background: #f5f5f5; }
+    ::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 8px; }
+    .glass {
+      background: rgba(255,255,255,.76);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-radius: 30px;
+      border: 1px solid rgba(200, 200, 200, 0.15);
+      box-shadow: 0 4px 32px 0 rgba(60,60,60,0.07), 0 1.5px 4px 0 rgba(60,60,60,0.04);
+    }
+    .hover-up {
+      transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1);
+    }
+    .hover-up:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 12px 32px 0 rgba(40,80,120,0.13);
+    }
+    .house-card {
+      border-radius: 2.5rem;
+      box-shadow: 0 7px 32px 0 rgba(40,80,120,0.13);
+      border: 2px solid transparent;
+      background: linear-gradient(135deg, #fff 80%, rgba(60,60,60,0.05) 100%);
+      transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .2s;
+      overflow: hidden;
+      position: relative;
+    }
+    .house-card:hover {
+      transform: translateY(-10px) scale(1.025);
+      box-shadow: 0 20px 52px 0 rgba(40,80,120,0.18);
+      border-color: #8bc34a60;
+    }
+    .house-badge {
+      display: inline-block;
+      font-size: 1.13em;
+      font-weight: 700;
+      letter-spacing: .04em;
+      margin-bottom: 0.3em;
+      padding: .2em 1.2em;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px 0 rgba(40,80,120,0.09);
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+    .house-integrity { background: #2563eb; }
+    .house-loyalty { background: #fbbf24; color: #234; }
+    .house-honesty { background: #22c55e; }
+    .house-unity { background: #ef4444; }
+    .house-ribbon {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 10px;
+      opacity: .15;
+      pointer-events: none;
+    }
+    .activity-tag {
+      display: inline-block;
+      background: #8bc34a14;
+      color: #2e7d32;
+      font-size: .98em;
+      font-weight: 600;
+      border-radius: 1.1em;
+      padding: .2em 1em;
+      margin: 2px 4px 2px 0;
+    }
+    .activity-card {
+      border-radius: 2em;
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 7px 24px 0 rgba(40,80,120,0.10);
+      border: 1px solid #d5e5d5;
+      transition: box-shadow .2s, transform .2s;
+      padding-bottom: 0;
+    }
+    .activity-card:hover {
+      box-shadow: 0 18px 52px 0 rgba(40,80,120,0.14);
+      transform: translateY(-6px) scale(1.02);
+    }
+    .gradient-title {
+      background: linear-gradient(90deg, #2e7d32 0, #8bc34a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+
+  <!-- HEADER (same as homepage) -->
+  <header class="bg-white shadow-md sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+      <a href="home.html" class="flex items-center group">
+        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 object-contain group-hover:scale-105 transition-transform">
+        <div class="ml-2">
+          <h1 class="text-lg md:text-xl font-bold text-green-600">Dayspring International Academy</h1>
+          <p class="text-xs md:text-sm font-semibold text-gray-400">Accra, Ghana</p>
+        </div>
+      </a>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+        <a href="home.html" class="nav-link text-dark font-medium hover:text-primary transition">Home</a>
+        <a href="home.html#about" class="nav-link text-dark font-medium hover:text-primary transition">About</a>
+        <a href="gallery.html" class="nav-link text-dark font-medium hover:text-primary transition">Gallery</a>
+        <a href="admission.html" class="nav-link text-dark font-medium hover:text-primary transition">Admissions</a>
+        <a href="facilities.html" class="nav-link text-dark font-medium hover:text-primary transition">Facilities</a>
+        <a href="contacts.html" class="nav-link text-dark font-medium hover:text-primary transition">Contact</a>
+      </nav>
+      <!-- Mobile -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1 justify-center items-center w-10 h-10 focus:outline-none group">
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:rotate-45 group-[.open]:translate-y-2"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:opacity-0"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:-rotate-45 group-[.open]:-translate-y-2"></span>
+      </button>
+    </div>
+    <!-- Mobile Slide Menu -->
+    <nav id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-center gap-7 text-lg font-semibold text-primary transition-all duration-300 -translate-y-full md:hidden">
+      <a href="home.html" class="hover:text-accent">Home</a>
+      <a href="home.html#about" class="hover:text-accent">About</a>
+      <a href="gallery.html" class="hover:text-accent">Gallery</a>
+      <a href="admission.html" class="hover:text-accent">Admissions</a>
+      <a href="facilities.html" class="hover:text-accent">Facilities</a>
+      <a href="contacts.html" class="hover:text-accent">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative flex items-center min-h-[50vh] bg-gradient-to-tr from-green-600 via-green-400 to-accent overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-20"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-5 py-20 flex flex-col items-center">
+      <span class="inline-block bg-white text-primary px-4 py-1 rounded-full font-semibold mb-3">Student Activities</span>
+      <h2 class="text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-xl animate-fadein gradient-title" style="text-shadow:0 8px 28px rgba(0,0,0,.28);">
+        Clubs, Houses & Opportunities
+      </h2>
+      <p class="text-xl md:text-2xl text-white/95 mb-4 animate-fadein">Grow, compete, perform, serve, lead. There’s something for everyone.</p>
+    </div>
+  </section>
+
+  <!-- CLUBS -->
+  <section id="clubs" class="py-16">
+    <div class="max-w-5xl mx-auto px-5 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 animate-fadein gradient-title">Get Involved: Our Clubs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-pink-500"><i class="fa fa-person-dress"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Dance Club</h3>
+          <p class="text-gray-700 mb-4">Express yourself through movement, technique, and teamwork. The Dance Club performs at school events and competitions, and welcomes all levels.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-yellow-500"><i class="fa fa-music"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Music Club</h3>
+          <p class="text-gray-700 mb-4">Join a musical journey! Learn instruments, sing, compose, and perform. The Music Club is the heartbeat of our celebrations and assemblies.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-green-600"><i class="fa fa-theater-masks"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Drama Club</h3>
+          <p class="text-gray-700 mb-4">Step onto the stage! The Drama Club brings stories to life with passion and creativity, producing plays and skits throughout the year.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOUSES -->
+  <section id="houses" class="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div class="max-w-6xl mx-auto px-5 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-10 animate-fadein gradient-title">The Four Houses</h2>
+      <p class="mb-8 text-lg text-gray-700 animate-fadein">Every student belongs to one of four vibrant houses. Earn points, compete, and show your spirit!</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+
+        <div class="house-card animate-fadein hover-up p-8 text-center border-bluehouse shadow-lg relative">
+          <div class="house-ribbon" style="background:linear-gradient(90deg,#2563eb 0,#3b82f6 100%);"></div>
+          <span class="house-badge house-integrity">Integrity</span>
+          <div class="text-5xl mb-4"><i class="fa fa-gem text-bluehouse"></i></div>
+          <p class="text-lg font-semibold text-bluehouse mb-2">Color: Blue</p>
+          <p class="text-gray-700">Stand for truth. Integrity House leads with honesty, courage, and fairness.</p>
+        </div>
+
+        <div class="house-card animate-fadein hover-up p-8 text-center border-yellowhouse shadow-lg relative">
+          <div class="house-ribbon" style="background:linear-gradient(90deg,#fbbf24 0,#fde68a 100%);"></div>
+          <span class="house-badge house-loyalty">Loyalty</span>
+          <div class="text-5xl mb-4"><i class="fa fa-star text-yellowhouse"></i></div>
+          <p class="text-lg font-semibold text-yellowhouse mb-2">Color: Yellow</p>
+          <p class="text-gray-700">Faithful and true. Loyalty House values friendship, support, and commitment.</p>
+        </div>
+
+        <div class="house-card animate-fadein hover-up p-8 text-center border-greenhouse shadow-lg relative">
+          <div class="house-ribbon" style="background:linear-gradient(90deg,#22c55e 0,#bbf7d0 100%);"></div>
+          <span class="house-badge house-honesty">Honesty</span>
+          <div class="text-5xl mb-4"><i class="fa fa-leaf text-greenhouse"></i></div>
+          <p class="text-lg font-semibold text-greenhouse mb-2">Color: Green</p>
+          <p class="text-gray-700">Open and sincere. Honesty House stands for truth and transparency in all things.</p>
+        </div>
+
+        <div class="house-card animate-fadein hover-up p-8 text-center border-redhouse shadow-lg relative">
+          <div class="house-ribbon" style="background:linear-gradient(90deg,#ef4444 0,#fca5a5 100%);"></div>
+          <span class="house-badge house-unity">Unity</span>
+          <div class="text-5xl mb-4"><i class="fa fa-people-group text-redhouse"></i></div>
+          <p class="text-lg font-semibold text-redhouse mb-2">Color: Red</p>
+          <p class="text-gray-700">Together as one. Unity House brings everyone together to achieve greatness.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOUSE COMPETITIONS / EVENTS -->
+  <section id="events" class="py-16">
+    <div class="max-w-6xl mx-auto px-5 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-10 animate-fadein gradient-title">House Competitions & Events</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        <div class="activity-card animate-fadein hover-up p-8 text-left">
+          <div class="flex items-center mb-3 gap-2">
+            <span class="activity-tag">Sports Day</span>
+            <span class="bg-blue-100 text-bluehouse px-3 py-1 rounded-full text-xs font-bold ml-2">Yearly</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-primary"><i class="fa fa-trophy text-yellow-500 mr-2"></i>Ultimate House Sports Day</h3>
+          <p class="text-gray-700">The most anticipated house event! Compete in athletics and team games for house glory and the coveted cup.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up p-8 text-left">
+          <div class="flex items-center mb-3 gap-2">
+            <span class="activity-tag">Variety Show (Quiz)</span>
+            <span class="bg-green-100 text-greenhouse px-3 py-1 rounded-full text-xs font-bold ml-2">2× per term</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-primary"><i class="fa fa-question-circle text-greenhouse mr-2"></i>House Variety Quiz Shows</h3>
+          <p class="text-gray-700">Join your house for fast-paced quizzes—general knowledge, current affairs, and fun challenges. Points count toward House Cup standings!</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up p-8 text-left">
+          <div class="flex items-center mb-3 gap-2">
+            <span class="activity-tag">Dear February</span>
+            <span class="bg-red-100 text-redhouse px-3 py-1 rounded-full text-xs font-bold ml-2">Yearly</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-primary"><i class="fa fa-book-open text-redhouse mr-2"></i>Reading Competition: Dear February</h3>
+          <p class="text-gray-700">Showcase your love of reading! Houses compete in reading, spelling, and comprehension. A festival for book lovers every February.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up p-8 text-left">
+          <div class="flex items-center mb-3 gap-2">
+            <span class="activity-tag">Science & Maths Quiz</span>
+            <span class="bg-yellow-100 text-yellowhouse px-3 py-1 rounded-full text-xs font-bold ml-2">Yearly</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2 text-primary"><i class="fa fa-flask-vial text-yellowhouse mr-2"></i>House Science and Maths Quiz</h3>
+          <p class="text-gray-700">Put your brains to the test! Represent your house in the ultimate academic challenge of the year.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- OPPORTUNITIES -->
+  <section id="opportunities" class="py-16 bg-gradient-to-r from-green-50 via-white to-yellow-50">
+    <div class="max-w-5xl mx-auto px-5 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-10 animate-fadein gradient-title">Beyond the Classroom</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-primary"><i class="fa fa-briefcase"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Internships</h3>
+          <p class="text-gray-700 mb-4">Gain real-world experience! Qualified students can apply for internships with local businesses and organizations.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-accent"><i class="fa fa-hands-helping"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Volunteerism</h3>
+          <p class="text-gray-700 mb-4">Make a difference! Join community service and volunteer projects to help others and build a better world.</p>
+        </div>
+
+        <div class="activity-card animate-fadein hover-up flex flex-col items-center text-center p-8">
+          <div class="text-5xl mb-3 text-yellow-600"><i class="fa fa-graduation-cap"></i></div>
+          <h3 class="font-bold text-xl mb-2 text-primary">Graduation</h3>
+          <p class="text-gray-700 mb-4">Celebrate your journey! Graduation is a highlight event with awards, performances, and the start of new adventures.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (same as homepage) -->
+  <footer class="footer-gradient text-white py-14 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div>
+          <div class="flex items-center mb-3">
+            <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+            <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+          </div>
+          <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+            <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+            <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+            <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Contact</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+            <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+            <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+        &copy; 2025 Dayspring International Academy. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS (hamburger, scroll animations) -->
+  <script>
+    // Hamburger mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let mobileMenuOpen = false;
+    hamburger.addEventListener('click', function () {
+      mobileMenuOpen = !mobileMenuOpen;
+      mobileMenu.classList.toggle('-translate-y-full', !mobileMenuOpen);
+      mobileMenu.classList.toggle('translate-y-0', mobileMenuOpen);
+      hamburger.classList.toggle('open', mobileMenuOpen);
+      document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuOpen = false;
+        mobileMenu.classList.add('-translate-y-full');
+        mobileMenu.classList.remove('translate-y-0');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Animate on scroll
+    function animateOnScroll() {
+      document.querySelectorAll('.animate-fadein').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.85) el.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('DOMContentLoaded', animateOnScroll);
+  </script>
+</body>
+</html>

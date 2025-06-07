@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome CDN (v6) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Dayspring International Academy - Our Facilities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dayspring-green': '#1a5c3a',
+                        'dayspring-light': '#e8f5e9',
+                        'dayspring-dark': '#0d3b21',
+                        primary: '#2e7d32',
+                        secondary: '#1b5e20',
+                        accent: '#8bc34a',
+                        dark: '#263238',
+                        light: '#f5f5f5'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+        .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+        .animate-fadein.visible { opacity: 1; transform: none; }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            left: 0; bottom: 0;
+            background: #8bc34a;
+            transition: width .3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { opacity: 0; animation: fadeIn 1s cubic-bezier(.4,0,.2,1) forwards; }
+        .zoom-effect { transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s; }
+        .zoom-effect:hover { transform: scale(1.035); box-shadow: 0 8px 32px 0 rgba(40,80,120,0.13);}
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #1a5c3a; border-radius: 4px; }
+        .facility-card { transition: transform .18s cubic-bezier(.4,0,.2,1), box-shadow .18s cubic-bezier(.4,0,.2,1); }
+        .facility-card:active, .facility-card:focus-within { transform: scale(1.01); box-shadow: 0 8px 24px 0 rgba(40,80,120,0.10);}
+        @media (max-width: 768px) { .facility-card { width: 100%; margin-bottom: 2rem; } }
+        .footer-gradient { background: linear-gradient(90deg, #407349 0%, #1a4408 100%); }
+        /* Lightbox seamless */
+        #lightbox { transition: background 0.25s; }
+        #lightbox-img { box-shadow: 0 8px 40px 0 rgba(0,0,0,0.12); border-radius: 22px; max-width: 95vw; max-height: 80vh;}
+        #lightbox-caption { text-shadow: 0 4px 24px rgba(0,0,0,0.25); }
+        /* Gallery button active state */
+        .gallery-btn.active, .gallery-btn:focus { background: #fff !important; color: #1a5c3a !important; box-shadow: 0 2px 10px 0 rgba(60,60,60,0.03);}
+        .gallery-btn { transition: background 0.14s, color 0.14s, box-shadow .14s; }
+    </style>
+</head>
+<body class="bg-dayspring-light font-sans">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center min-w-0">
+                <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
+                <div class="ml-3">
+                    <h1 class="text-lg sm:text-xl font-bold text-green-600 truncate">Dayspring International Academy</h1>
+                    <p class="text-xs sm:text-sm font-bold text-gray-500 truncate">Accra, Ghana</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+                <a href="home.html" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Home</a>
+                <a href="home.html#about" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition">About</a>
+                <a href="gallery.html" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Gallery</a>
+                <a href="admission.html" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Admissions</a>
+                <a href="facilities.html" class="nav-link text-green-600 font-semibold" target="_self">Facilities</a>
+                <a href="contacts.html" class="nav-link text-dark font-medium hover:text-[#2e7d32] transition" target="_self">Contact</a>
+            </nav>
+            <button id="hamburger" class="md:hidden text-gray-700 focus:outline-none" aria-label="Open menu">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 bg-white">
+            <a href="home.html" class="block py-2 text-gray-700 hover:text-green-600 transition">Home</a>
+            <a href="home.html#about" class="block py-2 text-gray-700 hover:text-green-600 transition">About</a>
+            <a href="gallery.html" class="block py-2 text-gray-700 hover:text-green-600 transition" target="_self">Gallery</a>
+            <a href="admission.html" class="block py-2 text-gray-700 hover:text-green-600 transition">Admissions</a>
+            <a href="facilities.html" class="block py-2 text-green-700 font-semibold">Facilities</a>
+            <a href="contacts.html" class="block py-2 text-gray-700 hover:text-green-600 transition">Contact</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Facilities Showcase -->
+        <section class="py-16 px-4 bg-yellow-300 bg-opacity-40 ">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center text-dayspring-green mb-12 fade-in"><br>Our World-Class Facilities, Perfect For Small Class Sizes.</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="facility-card bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl fade-in" data-delay="100" tabindex="0">
+                        <img src="https://i.ibb.co/hFWXrBmD/image.png" alt="Preschool Classroom" class="w-full h-64 object-cover zoom-effect" loading="lazy">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-dayspring-dark mb-3">Preschool Department</h3>
+                            <p class="text-gray-700 mb-4">Our preschool facilities are designed to stimulate young minds with colorful, safe, and engaging learning spaces tailored for early childhood development.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Interactive Play Areas</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Child-Sized Furniture</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Sensory Rooms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="facility-card bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl fade-in" data-delay="200" tabindex="0">
+                        <img src="primary-classroom.jpg" alt="Primary Classroom" class="w-full h-64 object-cover zoom-effect" loading="lazy">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-dayspring-dark mb-3">Primary Department</h3>
+                            <p class="text-gray-700 mb-4">Bright, spacious classrooms equipped with modern teaching aids to foster creativity and collaborative learning for our primary students.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Airy Classrooms</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Reading Corners</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Project Areas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="facility-card bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl fade-in" data-delay="300" tabindex="0">
+                        <img src="secondary-classroom.jpg" alt="Secondary Classroom" class="w-full h-64 object-cover zoom-effect" loading="lazy">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-dayspring-dark mb-3">Secondary Department</h3>
+                            <p class="text-gray-700 mb-4">Advanced learning environments with technology integration to prepare students for higher education and professional careers.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Lecture Halls</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Research Centers</span>
+                                <span class="bg-dayspring-light text-dayspring-dark px-3 py-1 rounded-full text-sm">Career Guidance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Gallery -->
+        <section class="py-16 px-4 bg-dayspring-green text-white">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 fade-in">Explore Our Facilities</h2>
+                <div class="flex justify-center mb-8 overflow-x-auto pb-4">
+                    <div class="flex space-x-2" id="gallery-nav">
+                        <button class="gallery-btn px-4 py-2 rounded-full bg-white text-dayspring-dark font-medium active" data-category="all" tabindex="0">All Facilities</button>
+                        <button class="gallery-btn px-4 py-2 rounded-full bg-dayspring-light text-dayspring-dark font-medium" data-category="classrooms" tabindex="0">Classrooms</button>
+                        <button class="gallery-btn px-4 py-2 rounded-full bg-dayspring-light text-dayspring-dark font-medium" data-category="labs" tabindex="0">Labs</button>
+                        <button class="gallery-btn px-4 py-2 rounded-full bg-dayspring-light text-dayspring-dark font-medium" data-category="misc" tabindex="0">Miscellaneous</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid">
+                    <div class="gallery-item classrooms all fade-in" onclick="openLightbox('preschool-classroom-1.jpg')" tabindex="0">
+                        <img src="preschool-classroom-1.jpg" alt="Preschool Classroom" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item classrooms all fade-in" onclick="openLightbox('primary-classroom-1.jpg')" tabindex="0">
+                        <img src="primary-classroom-1.jpg" alt="Primary Classroom" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item classrooms all fade-in" onclick="openLightbox('secondary-classroom-1.jpg')" tabindex="0">
+                        <img src="secondary-classroom-1.jpg" alt="Secondary Classroom" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item misc all fade-in" onclick="openLightbox('library.jpg')" tabindex="0">
+                        <img src="library.jpg" alt="Library" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item misc all fade-in" onclick="openLightbox('language-center1.jpg')" tabindex="0">
+                        <img src="language-center.jpg" alt="Language Center" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item labs all fade-in" onclick="openLightbox('it-lab-1.jpg')" tabindex="0">
+                        <img src="it-lab-1.jpg" alt="IT Lab" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                    <div class="gallery-item labs all fade-in" onclick="openLightbox('science-lab-1.jpg')" tabindex="0">
+                        <img src="science-lab-1.jpg" alt="Science Lab" class="w-full h-48 object-cover rounded-lg cursor-pointer zoom-effect" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities Comparison -->
+        <section class="py-16 px-4 fade-in">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center text-dayspring-green mb-12 fade-in">Our Facilities at a Glance</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-dayspring-green text-white">
+                                <th class="p-4 text-left">Facility</th>
+                                <th class="p-4 text-left">Features</th>
+                                <th class="p-4 text-left">Capacity</th>
+                                <th class="p-4 text-left">Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">Preschool Classrooms</td>
+                                <td class="p-4">Child-safe materials, interactive play areas, nap rooms</td>
+                                <td class="p-4">10 students per class</td>
+                                <td class="p-4">Monday-Friday, 7:30am-5:30pm</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">Primary Classrooms</td>
+                                <td class="p-4">Airy classrooms, reading corners, project spaces</td>
+                                <td class="p-4">15 students per class</td>
+                                <td class="p-4">Monday-Friday, 7:30am-4:00pm</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">Secondary Classrooms</td>
+                                <td class="p-4">Lecture-style seating, presentation equipment, study carrels</td>
+                                <td class="p-4">About 15 students per class</td>
+                                <td class="p-4">Monday-Friday, 7:30am-4:00pm</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">IT Laboratory</td>
+                                <td class="p-4">15 workstations, laser printers, robotics kits</td>
+                                <td class="p-4">15 students</td>
+                                <td class="p-4">Monday-Saturday, 8:00am-6:00pm</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">Science Laboratories</td>
+                                <td class="p-4">Modern equipment, safety stations, demonstration areas</td>
+                                <td class="p-4">15 students per lab</td>
+                                <td class="p-4">Monday-Friday, 8:00am-5:00pm</td>
+                            </tr>
+                            <tr class="hover:bg-dayspring-light">
+                                <td class="p-4 font-medium">Sports Complex</td>
+                                <td class="p-4">Basketball court, swimming pool, athletics track</td>
+                                <td class="p-4">Not within the school</td>
+                                <td class="p-4">Wednesdays</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (DO NOT CHANGE) -->
+    <footer class="footer-gradient text-white py-14 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center mb-3">
+                        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+                        <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+                    </div>
+                    <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-100">
+                        <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+                        <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+                        <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3">Contact</h3>
+                    <ul class="space-y-2 text-gray-100">
+                        <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+                        <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+                &copy; 2025 Dayspring International Academy. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+        <div class="relative max-w-4xl w-full p-4">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white text-4xl hover:text-gray-300" aria-label="Close">&times;</button>
+            <img id="lightbox-img" src="" alt="" class="max-h-screen w-auto mx-auto">
+            <p id="lightbox-caption" class="text-white text-center mt-4"></p>
+        </div>
+    </div>
+
+    <!-- JS for interactive elements & seamless experience -->
+    <script>
+        // Mobile menu
+        document.getElementById('hamburger').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden', !menu.classList.contains('hidden'));
+        });
+
+        // Animate on scroll; fade-in elements
+        const fadeInEls = document.querySelectorAll('.fade-in');
+        function animateOnScroll() {
+            fadeInEls.forEach((el, i) => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.93) {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('DOMContentLoaded', () => {
+            fadeInEls.forEach(element => {
+                const delay = element.getAttribute('data-delay') || 0;
+                element.style.animationDelay = `${delay}ms`;
+            });
+            setTimeout(animateOnScroll, 50);
+        });
+
+        // Facility card hover tilt/parallax
+        document.querySelectorAll('.facility-card').forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const r = card.getBoundingClientRect();
+                const x = e.clientX - r.left, y = e.clientY - r.top;
+                const centerX = card.offsetWidth/2, centerY = card.offsetHeight/2;
+                const angleX = (y - centerY) / 24, angleY = (centerX - x) / 24;
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.018)`;
+            });
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+            card.addEventListener('focus', function() {
+                card.classList.add('ring-2', 'ring-dayspring-green');
+            });
+            card.addEventListener('blur', function() {
+                card.classList.remove('ring-2', 'ring-dayspring-green');
+            });
+        });
+
+        // Gallery filter
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryNav = document.getElementById('gallery-nav');
+            const galleryBtns = galleryNav.querySelectorAll('.gallery-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    galleryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const category = this.getAttribute('data-category');
+                    galleryItems.forEach(item => {
+                        if (category === 'all' || item.classList.contains(category)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Lightbox
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            lightboxImg.src = imageSrc;
+            // Find the alt from gallery images
+            let alt = '';
+            document.querySelectorAll('.gallery-item img').forEach(img => {
+                if (img.src.includes(imageSrc) || img.getAttribute('src') === imageSrc) alt = img.alt;
+            });
+            lightboxCaption.textContent = alt;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Keyboard accessibility for gallery and cards
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const img = item.querySelector('img');
+                    if (img) openLightbox(img.getAttribute('src'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

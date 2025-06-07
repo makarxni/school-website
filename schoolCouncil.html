@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet the Student Council | Dayspring International Academy</title>
+  <!-- Font Awesome CDN (v6) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2e7d32',
+            secondary: '#1b5e20',
+            accent: '#8bc34a',
+            dark: '#263238',
+            light: '#f5f5f5'
+          },
+          fontFamily: {
+            pop: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; }
+    .animate-fadein { opacity: 0; transform: translateY(30px); transition: all .7s cubic-bezier(.4,0,.2,1); }
+    .animate-fadein.visible { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0; bottom: 0;
+      background: #8bc34a;
+      transition: width .3s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .footer-gradient { background: linear-gradient(90deg, #407349 0%, #1a4408 100%); }
+    ::-webkit-scrollbar { width: 8px; background: #f5f5f5; }
+    ::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 8px; }
+    .apple-shadow { box-shadow: 0 4px 16px 0 rgba(60,60,60,0.07), 0 1.5px 4px 0 rgba(60,60,60,0.04); }
+    .apple-image { box-shadow: 0 2px 32px 0 rgba(40,80,120,0.07); border-radius: 32px; }
+    .glass {
+      background: rgba(255,255,255,.76);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-radius: 30px;
+      border: 1px solid rgba(200, 200, 200, 0.15);
+      box-shadow: 0 4px 32px 0 rgba(60,60,60,0.07), 0 1.5px 4px 0 rgba(60,60,60,0.04);
+    }
+    .hover-up {
+      transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1);
+    }
+    .hover-up:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 12px 32px 0 rgba(40,80,120,0.13);
+    }
+    .council-badge {
+      background: #e6f7e6;
+      color: #20752e;
+      font-weight: 600;
+      letter-spacing: .03em;
+      font-size: .94em;
+      border-radius: 1em;
+      padding: 0.25em 1em;
+      display: inline-block;
+      margin-bottom: 0.7em;
+    }
+    .council-card {
+      border-radius: 2em;
+      border: 1px solid #d5e5d5;
+      box-shadow: 0 6px 28px 0 rgba(40,80,120,0.10);
+      background: rgba(255,255,255,0.92);
+      overflow: hidden;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .council-card:hover {
+      box-shadow: 0 18px 48px 0 rgba(40,80,120,0.20);
+      transform: translateY(-6px) scale(1.025);
+    }
+    .council-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 9999px;
+      border: 3px solid #8bc34a33;
+      box-shadow: 0 2px 12px 0 rgba(60,60,60,0.08);
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+
+  <!-- HEADER -->
+  <header class="bg-white shadow-md sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+      <a href="home.html" class="flex items-center group">
+        <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-10 w-10 object-contain group-hover:scale-105 transition-transform">
+        <div class="ml-2">
+          <h1 class="text-lg md:text-xl font-bold text-green-600">Dayspring International Academy</h1>
+          <p class="text-xs md:text-sm font-semibold text-gray-400">Accra, Ghana</p>
+        </div>
+      </a>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-4 lg:space-x-8 items-center">
+        <a href="home.html" class="nav-link text-dark font-medium hover:text-primary transition">Home</a>
+        <a href="home.html#about" class="nav-link text-dark font-medium hover:text-primary transition">About</a>
+        <a href="gallery.html" class="nav-link text-dark font-medium hover:text-primary transition">Gallery</a>
+        <a href="admission.html" class="nav-link text-dark font-medium hover:text-primary transition">Admissions</a>
+        <a href="facilities.html" class="nav-link text-dark font-medium hover:text-primary transition">Facilities</a>
+        <a href="contacts.html" class="nav-link text-dark font-medium hover:text-primary transition">Contact</a>
+      </nav>
+      <!-- Mobile -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1 justify-center items-center w-10 h-10 focus:outline-none group">
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:rotate-45 group-[.open]:translate-y-2"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:opacity-0"></span>
+        <span class="block h-1 w-7 bg-green-600 rounded transition-all group-[.open]:-rotate-45 group-[.open]:-translate-y-2"></span>
+      </button>
+    </div>
+    <!-- Mobile Slide Menu -->
+    <nav id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-center gap-7 text-lg font-semibold text-primary transition-all duration-300 -translate-y-full md:hidden">
+      <a href="home.html" class="hover:text-accent">Home</a>
+      <a href="home.html#about" class="hover:text-accent">About</a>
+      <a href="gallery.html" class="hover:text-accent">Gallery</a>
+      <a href="admission.html" class="hover:text-accent">Admissions</a>
+      <a href="facilities.html" class="hover:text-accent">Facilities</a>
+      <a href="contacts.html" class="hover:text-accent">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative flex items-center min-h-[60vh] bg-gradient-to-tr from-green-600 via-green-400 to-accent overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-25"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-5 py-20 flex flex-col items-center">
+      <span class="council-badge animate-fadein">Meet the Student Council</span>
+      <h2 class="text-4xl md:text-5xl font-black text-white mb-5 drop-shadow-xl animate-fadein" style="text-shadow:0 8px 32px rgba(0,0,0,.32);">
+        Voices of Leadership & Service
+      </h2>
+      <p class="text-xl md:text-2xl mb-6 text-white/90 animate-fadein">Empowering students, building community, inspiring change.</p>
+      <a href="#council" class="inline-block bg-white/90 text-primary font-bold py-3 px-10 rounded-full shadow-lg hover:bg-accent/90 hover:text-white transition-all animate-fadein hover-up" style="transition-delay:.2s">
+        Meet the Team
+      </a>
+    </div>
+  </section>
+
+  <!-- COUNCIL INTRO -->
+  <section class="py-16 bg-light">
+    <div class="max-w-5xl mx-auto px-5 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4 animate-fadein">Who We Are</h2>
+      <p class="text-lg md:text-xl text-gray-700 mb-7 animate-fadein">
+        The Student Council at Dayspring International Academy is a dynamic team of elected student leaders dedicated to representing their peers, organizing school activities, and fostering a positive, inclusive school culture. Each member brings unique strengths, talents, and ideas to empower the student body and champion student voices.
+      </p>
+      <div class="flex flex-wrap gap-2 justify-center animate-fadein">
+        <span class="bg-accent/10 text-primary px-3 py-1 rounded-full text-sm">Leadership</span>
+        <span class="bg-accent/10 text-primary px-3 py-1 rounded-full text-sm">Service</span>
+        <span class="bg-accent/10 text-primary px-3 py-1 rounded-full text-sm">Creativity</span>
+        <span class="bg-accent/10 text-primary px-3 py-1 rounded-full text-sm">Integrity</span>
+        <span class="bg-accent/10 text-primary px-3 py-1 rounded-full text-sm">Teamwork</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNCIL MEMBERS -->
+  <section id="council" class="py-20 bg-gradient-to-br from-green-50 via-white to-green-100">
+    <div class="max-w-7xl mx-auto px-5">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 animate-fadein">2024/2025 Student Council</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+        <!-- Example Council Member -->
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="President - James Mensah" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">James Mensah</h3>
+          <span class="text-primary font-semibold mb-2">President</span>
+          <p class="text-gray-600 mb-3">Passionate about student advocacy and teamwork, James leads with vision and humility.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Vice President - Ama Boateng" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">Ama Boateng</h3>
+          <span class="text-primary font-semibold mb-2">Vice President</span>
+          <p class="text-gray-600 mb-3">A creative problem solver, Ama inspires others and brings fresh ideas to school life.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Secretary - Kofi Owusu" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">Kofi Owusu</h3>
+          <span class="text-primary font-semibold mb-2">Secretary</span>
+          <p class="text-gray-600 mb-3">Organized and detail-oriented, Kofi ensures clear communication and smooth council operations.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Treasurer - Efua Sarpong" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">Efua Sarpong</h3>
+          <span class="text-primary font-semibold mb-2">Treasurer</span>
+          <p class="text-gray-600 mb-3">With a head for numbers and a heart for service, Efua manages council funds with integrity.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Events Coordinator - Daniel Asare" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">Daniel Asare</h3>
+          <span class="text-primary font-semibold mb-2">Events Coordinator</span>
+          <p class="text-gray-600 mb-3">Energetic and enthusiastic, Daniel brings the school community together through memorable events.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="council-card animate-fadein p-8 flex flex-col items-center text-center hover-up">
+          <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Public Relations - Nana Adwoa" class="council-img mb-4">
+          <h3 class="font-bold text-xl text-dark mb-1">Nana Adwoa</h3>
+          <span class="text-primary font-semibold mb-2">Public Relations</span>
+          <p class="text-gray-600 mb-3">Nana builds bridges between students and staff and keeps everyone informed and inspired.</p>
+          <div class="flex space-x-2 text-accent text-lg">
+            <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+      <div class="mt-14 text-center text-gray-700 animate-fadein">
+        <h3 class="font-bold text-xl mb-3 text-dark">Want to get involved?</h3>
+        <p class="mb-4">The Student Council welcomes your ideas, questions, and suggestions.<br>
+        <a href="contacts.html" class="text-primary font-semibold hover:underline">Contact us</a> or speak to any council member in person!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNCIL PROJECTS -->
+  <section class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-5">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 animate-fadein">Recent Initiatives</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        <div class="bg-light glass council-card p-7 animate-fadein hover-up">
+          <h4 class="font-semibold text-lg text-primary mb-2"><i class="fa fa-leaf text-accent mr-2"></i> Eco-School Campaign</h4>
+          <p class="text-gray-700">Organized a successful recycling drive and tree planting day, engaging over 120 students in environmental action.</p>
+        </div>
+        <div class="bg-light glass council-card p-7 animate-fadein hover-up">
+          <h4 class="font-semibold text-lg text-primary mb-2"><i class="fa fa-users text-accent mr-2"></i> Peer Mentorship Program</h4>
+          <p class="text-gray-700">Launched peer tutoring and support sessions, helping new students adjust and excel academically and socially.</p>
+        </div>
+        <div class="bg-light glass council-card p-7 animate-fadein hover-up">
+          <h4 class="font-semibold text-lg text-primary mb-2"><i class="fa fa-music text-accent mr-2"></i> Talent Show & Cultural Day</h4>
+          <p class="text-gray-700">Showcased students' talents and celebrated school diversity through music, dance, and art events.</p>
+        </div>
+        <div class="bg-light glass council-card p-7 animate-fadein hover-up">
+          <h4 class="font-semibold text-lg text-primary mb-2"><i class="fa fa-hand-holding-heart text-accent mr-2"></i> Charity Fundraiser</h4>
+          <p class="text-gray-700">Raised funds for a local children's home, fostering compassion and civic responsibility among students.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-gradient text-white py-14 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div>
+          <div class="flex items-center mb-3">
+            <img src="download-removebg-preview-removebg-preview.png" alt="Dayspring International Academy Logo" class="h-12 mb-2">
+            <span class="font-black text-lg ml-3">Dayspring International Academy</span>
+          </div>
+          <p class="text-gray-100 mb-4">Educating Future Leaders.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="hover:text-green-200 transition"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><a href="home.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="admission.html" class="text-gray-400 hover:text-white transition" target="_self">Admission</a></li>
+            <li><a href="gallery.html" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+            <li><a href="facilities.html" class="text-gray-400 hover:text-white transition">Facilities</a></li>
+            <li><a href="contacts.html" class="text-gray-400 hover:text-white transition">Contacts</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3">Contact</h3>
+          <ul class="space-y-2 text-gray-100">
+            <li><i class="fas fa-phone-alt mr-2 text-green-200"></i>+233 123 456 789</li>
+            <li><i class="fas fa-envelope mr-2 text-green-200"></i>info@daysia.edu</li>
+            <li><i class="fas fa-map-marker-alt mr-2 text-green-200"></i>Nmai Dzorn, East Legon Extension, Adenta - Accra, AF 1743</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/20 mt-10 pt-8 text-center text-gray-100/80">
+        &copy; 2025 Dayspring International Academy. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    // Hamburger mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let mobileMenuOpen = false;
+    hamburger.addEventListener('click', function () {
+      mobileMenuOpen = !mobileMenuOpen;
+      mobileMenu.classList.toggle('-translate-y-full', !mobileMenuOpen);
+      mobileMenu.classList.toggle('translate-y-0', mobileMenuOpen);
+      hamburger.classList.toggle('open', mobileMenuOpen);
+      document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuOpen = false;
+        mobileMenu.classList.add('-translate-y-full');
+        mobileMenu.classList.remove('translate-y-0');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Animate on scroll
+    function animateOnScroll() {
+      document.querySelectorAll('.animate-fadein').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.85) el.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('DOMContentLoaded', animateOnScroll);
+  </script>
+</body>
+</html>
